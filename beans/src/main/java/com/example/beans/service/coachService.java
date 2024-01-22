@@ -46,7 +46,7 @@ public class coachService {
             }
     }   ;
         return hockeyCoachService.addHockeyCoach();
-    };
+    }
 
     @Bean
     public List<Coach> allCoaches(){
