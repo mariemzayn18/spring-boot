@@ -96,7 +96,7 @@ class CoachControllerTest {
     public void deletingCoach_NotFound_usingRule() throws Exception {
         thrown.expect(NotFoundException.class);
         thrown.expectMessage("Coach with ID 4 does not exist.");
-        mockMvc.perform(MockMvcRequestBuilders.delete("/coaches/4")).andReturn();
+        mockMvc.perform(MockMvcRequestBuilders.delete("/coaches/4"));
     }
 
 }
