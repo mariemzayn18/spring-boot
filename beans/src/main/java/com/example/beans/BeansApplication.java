@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.example.externalbean.entity")
-
 public class BeansApplication {
 
 	public static void main(String[] args) {
