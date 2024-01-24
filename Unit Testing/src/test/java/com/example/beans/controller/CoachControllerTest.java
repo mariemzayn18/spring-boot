@@ -1,18 +1,16 @@
 package com.example.beans.controller;
-
 import com.example.beans.exceptions.NotFoundException;
 import com.example.beans.entity.Coach;
 import com.example.beans.repositories.CoachRepository;
 import com.example.beans.service.CoachService;
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -84,14 +82,21 @@ class CoachControllerTest {
 
     @Test
     void deletingCoach_NotFound_usingAssertThrows() throws Exception{
-        Mockito.when(coachRepository.findById((long)4))
-                .thenThrow(new NotFoundException("Coach with ID 4 does not exist."));
-
         NotFoundException exception = assertThrows(NotFoundException.class, () -> {
             coachService.removeCoach((long)4);
         });
 
         assertEquals("Coach with ID 4 does not exist.", exception.getMessage());
+    }
+
+    @Rule
+    public final ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void deletingCoach_NotFound_usingRule() throws Exception {
+        thrown.expect(NotFoundException.class);
+        thrown.expectMessage("Coach with ID 4 does not exist.");
+        mockMvc.perform(MockMvcRequestBuilders.delete("/coaches/4")).andReturn();
     }
 
 }
