@@ -83,7 +83,7 @@ class CoachControllerTest {
     }
 
     @Test
-    void deletingCoach_NotFound_usingRule() throws Exception{
+    void deletingCoach_NotFound_usingAssertThrows() throws Exception{
         Mockito.when(coachRepository.findById((long)4))
                 .thenThrow(new NotFoundException("Coach with ID 4 does not exist."));
 
@@ -92,17 +92,6 @@ class CoachControllerTest {
         });
 
         assertEquals("Coach with ID 4 does not exist.", exception.getMessage());
-    }
-
-    @Test
-    void deletingExistingCoach_usingRule_bySendingRequest() throws Exception{
-        Mockito.when(coachRepository.findById((long) 4))
-                .thenThrow(new NotFoundException("Coach with ID 4 does not exist."));
-
-        assertThrows(NotFoundException.class, () -> {
-            mockMvc.perform(MockMvcRequestBuilders.delete("/coaches/4"));
-        });
-
     }
 
 }
